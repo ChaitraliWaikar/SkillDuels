@@ -1,0 +1,107 @@
+/* styles/sidebar.css – BIGGER & BEAUTIFUL BUTTONS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --first-color: #edf7fa;
+  --second-color: #5f6caf;
+  --third-color: #ffb677;
+  --fourth-color: #79d1c3;
+  --sidebar-bg: #f8fafc;
+  --text-gray: #475569;
+  --border-gray: #e2e8f0;
+  --btn-main: #3ec8ac;      /* Your beautiful teal */
+  --btn-hover: #33b397;
+}
+
+.sidebar {
+  width: 280px;                    /* Slightly wider sidebar */
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border-gray);
+  padding: 2.5rem 1.8rem;          /* More breathing room */
+  height: 100%;
+  display: none;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .sidebar { display: block; }
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;                       /* Increased gap between buttons */
+}
+
+/* MAIN BUTTONS – BIGGER & BOLDER */
+.sidebar button {
+  width: 100%;
+  padding: 1.1rem 1.3rem;          /* Much taller & wider */
+  border: none;
+  border-radius: 1rem;             /* Softer rounded corners */
+  font-weight: 700;                /* Slightly lighter than 900 */
+  font-size: 1.15rem;              /* ~18-19px → perfect readability */
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: white;
+  background: var(--btn-main);
+  box-shadow: 0 4px 15px rgba(62, 200, 172, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 12px;                       /* Space for future icons */
+}
+
+.sidebar button:hover {
+  background: var(--btn-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(62, 200, 172, 0.4);
+}
+
+.sidebar button:active {
+  transform: translateY(-1px);
+}
+
+/* Secondary items (Leaderboard, Achievements) */
+.sidebar button:nth-child(n+5) {
+  background: transparent;
+  color: #475569;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 0.9rem 1.3rem;
+  border: 1px solid #e2e8f0;
+}
+
+.sidebar button:nth-child(n+5):hover {
+  background: #e6f4f1;
+  color: #1e293b;
+  border-color: var(--btn-main);
+}
+
+
+/* ─────── SIDEBAR LINK FIX ─────── */
+.sidebar-link {
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sidebar-link,
+.sidebar-link:link,
+.sidebar-link:visited,
+.sidebar-link:hover,
+.sidebar-link:active {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* Optional: Add smooth hover effect */
+.sidebar-btn:hover {
+  background: #e0f7f4;
+  color: #1e293b;
+  transform: translateX(4px);
+}

@@ -1,0 +1,139 @@
+/* styles/navbar.css */
+
+
+/* Make entire profile icon clickable */
+.profile-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.profile-icon-link:hover .profile-icon {
+  opacity: 0.8;
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+}
+
+.navbar {
+  background: var(--second-color);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(95, 108, 175, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.navbar h1 {
+  font-size: 1.9rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+/* Desktop Links */
+.nav-links {
+  display: none;                    /* Hidden on mobile */
+  gap: 2.5rem;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: white;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-links a:hover {
+  opacity: 1;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Profile Icon */
+.profile-icon {
+  width: 42px;
+  height: 42px;
+  background: white;
+  color: var(--second-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.08);
+}
+
+/* Mobile-only icon */
+.mobile-only {
+  display: flex;
+}
+
+/* Responsive: Show links on desktop */
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+  }
+  .mobile-only {
+    display: none;
+  }
+}
+
+
+.sidebar-link,
+.sidebar-link:link,
+.sidebar-link:visited,
+.sidebar-link:hover,
+.sidebar-link:active,
+.sidebar-link:focus {
+  color: inherit !important;
+  text-decoration: none !important;
+  outline: none !important;
+}
+
+
+.logo,
+.logo:link,
+.logo:visited,
+.logo:hover,
+.logo:active {
+  color: inherit !important;          
+  text-decoration: none !important;   /* Removes underline */
+  outline: none !important;
+}
+
+
+.logo:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
