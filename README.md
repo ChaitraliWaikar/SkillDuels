@@ -1,4 +1,4 @@
-# SkillDuels (Frontend)
+# SkillDuels 
 
 A real-time quiz battle app where players compete head-to-head or practice solo.
 
