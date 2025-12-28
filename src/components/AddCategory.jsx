@@ -4,32 +4,26 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import '../styles/adminpanel.css';
+import { mockApi } from '../services/mockApi';
 
 const AddCategory = () => {
   const navigate = useNavigate();
   const [categoryName, setCategoryName] = useState('');
 
-  const handleAddCategory = () => {
+  const handleAddCategory = async () => {
     if (!categoryName.trim()) {
       alert('Please enter category name');
       return;
     }
 
-    // Backend API call
-    // fetch('/api/admin/categories', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ name: categoryName })
-    // })
-    // .then(res => res.json())
-    // .then(data => {
-    //   alert('Category added successfully!');
-    //   navigate('/admin/manage-categories');
-    // });
-
-    console.log('Adding category:', categoryName);
-    alert('Category added successfully!');
-    navigate('/admin/manage-categories');
+    try {
+      await mockApi.addCategory(categoryName);
+      alert('Category added successfully!');
+      navigate('/admin/manage-categories');
+    } catch (error) {
+      console.error("Error adding category:", error);
+      alert('Failed to add category');
+    }
   };
 
   return (

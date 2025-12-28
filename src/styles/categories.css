@@ -22,27 +22,46 @@
 }
 
 .categories-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 2rem;
-  max-width: 800px;
+  max-width: 900px;
   width: 100%;
 }
 
 .category-card {
-  background: #e5e7eb;
+  background: white;
   padding: 2.5rem 2rem;
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  transition: transform 0.3s, box-shadow 0.3s;
+  flex: 0 1 320px;
+  /* Grow 0, Shrink 1, Basis 320px */
+  width: 100%;
+  max-width: 320px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, var(--second-color), var(--accent-teal));
 }
 
 .category-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .category-icon {
@@ -57,21 +76,22 @@
 }
 
 .btn-choose {
-  background:#5f6caf ;
+  background: linear-gradient(135deg, var(--second-color), #4a558a);
   color: white;
-  padding: 0.75rem 2.5rem;
+  padding: 0.8rem 2.8rem;
   border: none;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: 0.95rem;
+  border-radius: 2rem;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
-  transition: opacity 0.3s, background 0.3s;
+  transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 6px rgba(95, 108, 175, 0.3);
 }
 
 .btn-choose:hover:not(:disabled) {
-  background: #5f6caf ;
+  background: #5f6caf;
 }
 
 .btn-choose:disabled {

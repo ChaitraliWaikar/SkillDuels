@@ -5,13 +5,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
 }
 
-:root {
-  --first-color: #edf7fa;
-  --second-color: #5f6caf;
-  --third-color: #ffb677;
-  --fourth-color: #ff8364;
-  --accent-teal: #3ec8ac;
-}
+
 
 .app-container {
   height: 100vh;

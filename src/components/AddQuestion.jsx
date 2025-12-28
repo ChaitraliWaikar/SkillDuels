@@ -6,6 +6,8 @@ import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import '../styles/adminpanel.css';
 
+import { mockApi } from '../services/mockApi';
+
 const AddQuestion = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
@@ -16,17 +18,7 @@ const AddQuestion = () => {
 
   // Fetch categories from backend
   useEffect(() => {
-    // fetch('/api/admin/categories')
-    //   .then(res => res.json())
-    //   .then(data => setCategories(data.categories));
-    
-    // Mock data
-    setCategories([
-      { id: 1, name: 'Aptitude' },
-      { id: 2, name: 'Logical Reasoning' },
-      { id: 3, name: 'General Knowledge' },
-      { id: 4, name: 'Verbal' }
-    ]);
+    mockApi.getCategories().then(data => setCategories(data));
   }, []);
 
   const addOption = () => {
@@ -47,7 +39,7 @@ const AddQuestion = () => {
     setOptions(newOptions);
   };
 
-  const handleSaveQuestion = () => {
+  const handleSaveQuestion = async () => {
     // Validation
     if (!selectedCategory) {
       alert('Please select a category');
@@ -70,25 +62,17 @@ const AddQuestion = () => {
       categoryId: selectedCategory,
       question: questionText,
       options: options.filter(opt => opt.trim()),
-      correctAnswer: correctAnswer
+      correctAnswer: parseInt(correctAnswer) // Ensure it's an integer
     };
 
-    // Backend API call
-    // fetch('/api/admin/questions', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(questionData)
-    // })
-    // .then(res => res.json())
-    // .then(data => {
-    //   alert('Question added successfully!');
-    //   navigate('/admin/manage-questions');
-    // })
-    // .catch(err => alert('Failed to add question'));
-
-    console.log('Saving question:', questionData);
-    alert('Question added successfully!');
-    navigate('/admin/manage-questions');
+    try {
+      await mockApi.addQuestion(questionData);
+      alert('Question added successfully!');
+      navigate('/admin/manage-questions');
+    } catch (error) {
+      console.error('Failed to add question', error);
+      alert('Failed to add question');
+    }
   };
 
   return (
@@ -99,7 +83,7 @@ const AddQuestion = () => {
         <main className="admin-main">
           <div className="admin-form-container">
             <div className="form-group">
-              <select 
+              <select
                 className="admin-select"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
@@ -131,7 +115,7 @@ const AddQuestion = () => {
                   onChange={(e) => updateOption(index, e.target.value)}
                 />
                 {options.length > 2 && (
-                  <button 
+                  <button
                     className="btn-remove"
                     onClick={() => removeOption(index)}
                   >
