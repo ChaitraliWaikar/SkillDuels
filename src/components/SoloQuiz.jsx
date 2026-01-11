@@ -1,45 +1,44 @@
-/* eslint-disable react-hooks/purity */
-/* eslint-disable react-hooks/immutability */
- 
-
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import '../styles/categories.css';
+import { mockApi } from '../services/mockApi';
 
 const SoloQuiz = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Fetch categories dynamically from backend
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const data = await mockApi.getCategories();
+
+        // Apply the same icon fallback as in battle mode
+        const categoriesWithIcons = data.map(cat => ({
+          ...cat,
+          icon: cat.icon || '📚'  // Consistent default icon
+        }));
+
+        setCategories(categoriesWithIcons);
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+        setError('Failed to load categories. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchCategories();
   }, []);
 
-  const fetchCategories = async () => {
-    try {
-      // Backend API call to get all active categories
-      // const response = await fetch('/api/categories');
-      // const data = await response.json();
-      // setCategories(data.categories);
-
-      // Mock data - Replace with actual API call
-      const mockCategories = [
-        { id: 1, name: 'Aptitude', icon: '🧮' },
-        { id: 2, name: 'Logical Reasoning', icon: '🧠' },
-        { id: 3, name: 'General Knowledge', icon: '📚' },
-        { id: 4, name: 'Verbal', icon: '📝' }
-      ];
-      setCategories(mockCategories);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      alert('Failed to load categories');
-    }
-  };
-
   const handleChooseCategory = (category) => {
-    // Create solo user data
     const soloUser = {
       userId: 'solo_' + Date.now(),
       username: 'You',
@@ -48,18 +47,56 @@ const SoloQuiz = () => {
       profilePicture: null
     };
 
-    // Navigate directly to start battle with isSolo flag
     navigate('/start-battle', {
       state: {
         category: category.name,
         categoryId: category.id,
         battleId: 'solo_' + Date.now(),
         currentUser: soloUser,
-        opponent: null, // No opponent in solo mode
-        isSolo: true // Flag to indicate solo mode
+        opponent: null,
+        isSolo: true
       }
     });
   };
+
+  if (loading) {
+    return (
+      <div className="app-container">
+        <Navbar />
+        <div className="content-wrapper">
+          <Sidebar />
+          <main className="categories-main">
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <p>Loading categories...</p>
+            </div>
+          </main>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="app-container">
+        <Navbar />
+        <div className="content-wrapper">
+          <Sidebar />
+          <main className="categories-main">
+            <div className="error-container">
+              <h2>{error}</h2>
+              <button 
+                className="btn-choose" 
+                onClick={() => window.location.reload()}
+              >
+                Try Again
+              </button>
+            </div>
+          </main>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="app-container">
@@ -69,12 +106,12 @@ const SoloQuiz = () => {
         <Sidebar />
 
         <main className="categories-main">
-          <h1 className="categories-title">SOLO PRACTICE - CHOOSE CATEGORY</h1>
-          <p style={{ textAlign: 'center', color: '#6b7280', marginBottom: '2rem' }}>
-            Practice alone and improve your skills!
+          <h1 className="categories-title">SOLO PRACTICE</h1>
+          <p className="solo-subtitle" style={{textAlign:'center'}}>
+            Practice alone, improve your skills, and prepare for battles!
           </p>
 
-          <div className="categories-grid">
+          <div className="categories-grid" style={{alignContent:'center'}}>
             {categories.map((category) => (
               <div key={category.id} className="category-card">
                 <div className="category-icon">{category.icon}</div>

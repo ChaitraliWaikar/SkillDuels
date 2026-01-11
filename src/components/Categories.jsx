@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/immutability */
-/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -13,25 +12,27 @@ const Categories = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
 
-  // Fetch categories dynamically from backend (updated by admin)
+  // Fetch categories only once on mount
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    const fetchCategories = async () => {
+      try {
+        const data = await mockApi.getCategories();
 
-  const fetchCategories = async () => {
-    try {
-      const data = await mockApi.getCategories();
-      // Add icons if missing (mockApi might not return icons for new categories)
-      const categoriesWithIcons = data.map(cat => ({
-        ...cat,
-        icon: cat.icon || '📚' // Default icon
-      }));
-      setCategories(categoriesWithIcons);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      alert('Failed to load categories');
-    }
-  };
+        // Add default icon only if missing (consistent with SoloQuiz)
+        const withIcons = data.map(cat => ({
+          ...cat,
+          icon: cat.icon || '📚'
+        }));
+
+        setCategories(withIcons);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        alert('Failed to load categories');
+      }
+    };
+
+    fetchCategories();
+  }, []); // ← empty dependency array = run once on mount
 
   // Handle category selection and matchmaking
   const handleChooseCategory = async (category) => {
@@ -39,7 +40,7 @@ const Categories = () => {
     setLoading(true);
 
     try {
-      // Simulate matchmaking for demo
+      // Simulate matchmaking (2 seconds delay)
       setTimeout(() => {
         const mockOpponent = {
           userId: 'opp123',
@@ -56,7 +57,7 @@ const Categories = () => {
             battleId: 'battle_' + Date.now(),
             opponent: mockOpponent,
             currentUser: {
-              userId: 'u1', // Matches mockApi seed user
+              userId: 'u1', // Must match seed user in mockApi
               username: 'DemoUser',
               level: 5,
               xp: 1200,
@@ -65,7 +66,6 @@ const Categories = () => {
           }
         });
       }, 2000);
-
     } catch (error) {
       console.error('Error during matchmaking:', error);
       setLoading(false);
@@ -89,21 +89,28 @@ const Categories = () => {
         <main className="categories-main">
           <h1 className="categories-title">CHOOSE YOUR CATEGORY</h1>
 
-          <div className="categories-grid">
-            {categories.map((category) => (
-              <div key={category.id} className="category-card">
-                <div className="category-icon">{category.icon}</div>
-                <h3 className="category-name">{category.name}</h3>
-                <button
-                  className="btn-choose"
-                  onClick={() => handleChooseCategory(category)}
-                  disabled={loading}
-                >
-                  {loading && selectedCategory === category.id ? 'Finding...' : 'CHOOSE'}
-                </button>
-              </div>
-            ))}
-          </div>
+          {categories.length === 0 ? (
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <p>Loading categories...</p>
+            </div>
+          ) : (
+            <div className="categories-grid">
+              {categories.map((category) => (
+                <div key={category.id} className="category-card">
+                  <div className="category-icon">{category.icon}</div>
+                  <h3 className="category-name">{category.name}</h3>
+                  <button
+                    className="btn-choose"
+                    onClick={() => handleChooseCategory(category)}
+                    disabled={loading}
+                  >
+                    {loading && selectedCategory === category.id ? 'Finding...' : 'CHOOSE'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
 
           {loading && (
             <div className="loading-overlay">

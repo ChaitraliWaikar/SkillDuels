@@ -348,3 +348,58 @@
     padding: 1.5rem;
   }
 }
+
+/* Core Layout - Make Sidebar + Main side-by-side */
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--first-color); /* or your background */
+}
+
+.content-wrapper {
+  flex: 1;
+  display: flex;               /* Critical: row by default */
+  flex-direction: row;         /* Sidebar | Main */
+  overflow: hidden;            /* Prevents scroll issues */
+}
+
+/* Sidebar - Fixed width, full height */
+.Sidebar {                      /* or whatever class your Sidebar uses */
+  width: 280px;                 /* Adjust to your desired width */
+  flex-shrink: 0;               /* Never shrinks */
+  background: #ffffff;          /* or your sidebar bg */
+  border-right: 1px solid #e5e7eb;
+  overflow-y: auto;
+  height: 100vh;                /* Full viewport height */
+  position: sticky;
+  top: 0;
+}
+
+/* Main content - Takes remaining space */
+main {
+  flex: 1;                      /* Grow to fill space */
+  overflow-y: auto;             /* Scroll only inside main */
+  padding: clamp(1.5rem, 5vw, 3rem);
+  background: var(--light);     /* or your main bg */
+}
+
+/* Optional: Mobile - Stack Sidebar on top or hide/collapse */
+@media (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column;     /* Stack vertically on mobile */
+  }
+
+  .Sidebar {
+    width: 100%;
+    height: auto;               /* Not full height anymore */
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  main {
+    padding: 1.5rem 1rem;
+  }
+}

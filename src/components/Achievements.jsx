@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
+
 import '../styles/achievements.css';
 
 const Achievements = () => {

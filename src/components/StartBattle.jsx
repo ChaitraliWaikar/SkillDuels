@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -11,9 +9,12 @@ import { mockApi } from '../services/mockApi';
 const StartBattle = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  
   const [timer, setTimer] = useState(5);
   const [battleStarted, setBattleStarted] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [loadingQuestions, setLoadingQuestions] = useState(true);
+  const [error, setError] = useState(null);
 
   // Get data from navigation state
   const {
@@ -27,38 +28,52 @@ const StartBattle = () => {
 
   // Fetch questions for the selected category
   useEffect(() => {
-    if (categoryId) {
-      fetchQuestions();
+    if (!categoryId) {
+      setError("No category selected");
+      setLoadingQuestions(false);
+      return;
     }
+
+    const fetchQuestions = async () => {
+      try {
+        setLoadingQuestions(true);
+        setError(null);
+
+        const data = await mockApi.getQuestions(categoryId);
+
+        if (data.length === 0) {
+          throw new Error(`No questions available for category: ${category || categoryId}`);
+        }
+
+        setQuestions(data);
+        console.log(`Loaded ${data.length} questions for category ${categoryId}`);
+      } catch (err) {
+        console.error('Error fetching questions:', err);
+        setError(err.message || 'Failed to load questions for this category');
+      } finally {
+        setLoadingQuestions(false);
+      }
+    };
+
+    fetchQuestions();
   }, [categoryId]);
 
-  const fetchQuestions = async () => {
-    try {
-      const data = await mockApi.getQuestions(categoryId);
-      setQuestions(data);
-      console.log(`Loaded ${data.length} questions for category ${categoryId}`);
-    } catch (error) {
-      console.error('Error fetching questions:', error);
-      alert('Failed to load questions');
-    }
-  };
-
-  // Countdown timer
+  // Countdown timer → auto start when reaches 0
   useEffect(() => {
-    if (timer > 0 && !battleStarted) {
+    if (timer > 0 && !battleStarted && !loadingQuestions && !error) {
       const interval = setInterval(() => {
         setTimer(prev => prev - 1);
       }, 1000);
       return () => clearInterval(interval);
-    } else if (timer === 0 && !battleStarted) {
+    } else if (timer === 0 && !battleStarted && !loadingQuestions && !error) {
       handleStartBattle();
     }
-  }, [timer, battleStarted]);
+  }, [timer, battleStarted, loadingQuestions, error]);
 
   const handleStartBattle = () => {
     setBattleStarted(true);
 
-    // Navigate to quiz page with questions
+    // Navigate to quiz with all necessary data
     setTimeout(() => {
       navigate('/quiz', {
         state: {
@@ -71,13 +86,55 @@ const StartBattle = () => {
           isSolo
         }
       });
-    }, 1000);
+    }, 800);
   };
 
   const handleQuit = () => {
-    alert('You have quit the battle');
-    navigate('/categories');
+    if (window.confirm('Are you sure you want to quit?')) {
+      navigate(isSolo ? '/solo-quiz' : '/categories');
+    }
   };
+
+  // Loading / Error states
+  if (loadingQuestions) {
+    return (
+      <div className="app-container">
+        <Navbar />
+        <div className="content-wrapper">
+          <Sidebar />
+          <main className="battle-main">
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <p>Loading questions...</p>
+            </div>
+          </main>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="app-container">
+        <Navbar />
+        <div className="content-wrapper">
+          <Sidebar />
+          <main className="battle-main">
+            <div className="error-container">
+              <h2>Oops!</h2>
+              <p>{error}</p>
+              <p style={{ color: '#6b7280', margin: '1rem 0' }}>
+                This category might not have any questions yet.
+              </p>
+              <button className="btn-quit" onClick={handleQuit}>
+                Go Back
+              </button>
+            </div>
+          </main>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="app-container">
@@ -86,49 +143,49 @@ const StartBattle = () => {
         <Sidebar />
         <main className="battle-main">
           <div className="timer-section">
-            <span className="timer-label">Timer :</span>
+            <span className="timer-label">Starting in</span>
             <span className="timer-value">00:0{timer}</span>
           </div>
 
-          <h2 className="category-title">{category || 'Category Name'}</h2>
-          <p className="battle-type">{isSolo ? 'Solo Practice' : 'Live Battle'}</p>
+          <h2 className="category-title">{category || 'Selected Category'}</h2>
+          <p className="battle-type">{isSolo ? 'Solo Practice Mode' : 'Live 1v1 Battle'}</p>
 
           <div className="players-container">
             {/* Current User */}
             <div className="player-card">
               <div className="player-avatar">
                 {currentUser?.profilePicture ? (
-                  <img src={currentUser.profilePicture} alt="Profile" />
+                  <img src={currentUser.profilePicture} alt="You" />
                 ) : (
                   <div className="avatar-placeholder">
-                    {currentUser?.username?.charAt(0).toUpperCase() || 'P'}
+                    {currentUser?.username?.charAt(0)?.toUpperCase() || 'Y'}
                   </div>
                 )}
               </div>
               <h3 className="player-username">{currentUser?.username || 'You'}</h3>
               <p className="player-stats">
-                Level {currentUser?.level || 0} • {currentUser?.xp || 0} XP
+                Level {currentUser?.level || '?'} • {currentUser?.xp || 0} XP
               </p>
             </div>
 
-            {/* VS Text - Only show if not solo */}
+            {/* VS - only in battle mode */}
             {!isSolo && <div className="vs-divider">VS</div>}
 
-            {/* Opponent - Only show if not solo */}
+            {/* Opponent - only in battle mode */}
             {!isSolo && (
               <div className="player-card">
                 <div className="player-avatar">
                   {opponent?.profilePicture ? (
-                    <img src={opponent.profilePicture} alt="Profile" />
+                    <img src={opponent.profilePicture} alt="Opponent" />
                   ) : (
                     <div className="avatar-placeholder">
-                      {opponent?.username?.charAt(0).toUpperCase() || 'O'}
+                      {opponent?.username?.charAt(0)?.toUpperCase() || 'O'}
                     </div>
                   )}
                 </div>
                 <h3 className="player-username">{opponent?.username || 'Opponent'}</h3>
                 <p className="player-stats">
-                  Level {opponent?.level || 0} • {opponent?.xp || 0} XP
+                  Level {opponent?.level || '?'} • {opponent?.xp || 0} XP
                 </p>
               </div>
             )}
@@ -140,10 +197,11 @@ const StartBattle = () => {
                 Quit
               </button>
             )}
+
             {battleStarted && (
               <div className="battle-started-msg">
                 <h2>Battle Started!</h2>
-                <p>Loading questions...</p>
+                <p>Preparing questions...</p>
                 <div className="loading-spinner-small"></div>
               </div>
             )}

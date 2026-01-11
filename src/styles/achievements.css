@@ -1,213 +1,215 @@
-/* achievements.css - Updated for 5 Badge System */
+/* achievements.css - 2026 Premium Edition: Fluid, Responsive, No Cut-Offs */
 
+:root {
+  --primary: #6366f1;
+  --success: #10b981;
+  --warning: #fbbf24;
+  --dark: #0f172a;
+  --muted: #64748b;
+  --light: #f8fafc;
+  --card: #ffffff;
+  --border: #e2e8f0;
+}
+
+/* Main Layout - Full height, smooth scroll */
 .achievements-main {
   flex: 1;
-  padding: 2rem;
-  background: var(--first-color);
+  min-height: 100vh;
+  padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 4vw, 2.5rem);
+  background: linear-gradient(135deg, var(--light) 0%, #e0e7ff 100%);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  scroll-padding-bottom: 4rem; /* Safety for last content */
 }
 
+/* Title - Gradient & Scalable */
 .achievements-title {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: clamp(2rem, 7vw, 3rem);
+  font-weight: 900;
   text-align: center;
-  color: #1f2937;
-  margin-bottom: 2rem;
+  background: linear-gradient(135deg, var(--primary), #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 1.5rem 0 2.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.8px;
 }
 
+/* Header Stats - Responsive Grid */
 .achievements-header {
-  max-width: 900px;
-  margin: 0 auto 2rem;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto 2.5rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
 }
 
 .stat-box {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 1rem;
+  background: var(--card);
+  padding: 1.6rem;
+  border-radius: 1.25rem;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stat-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
 }
 
 .stat-label {
-  font-size: 0.9rem;
-  color: #6b7280;
+  font-size: 0.95rem;
+  color: var(--muted);
   margin-bottom: 0.5rem;
-  font-weight: 600;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
 }
 
 .stat-value {
-  font-size: 1.75rem;
-  font-weight: bold;
-  color: #1f2937;
+  font-size: clamp(1.6rem, 5.5vw, 2.2rem);
+  font-weight: 900;
+  color: var(--dark);
   margin: 0;
 }
 
-.badges-section {
-  max-width: 900px;
-  margin: 2rem auto 1.5rem;
-  text-align: center;
-}
-
-.section-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
-}
-
-.section-description {
-  color: #6b7280;
-  font-size: 1rem;
-  margin: 0;
-}
-
+/* Badges Grid - Auto-fit, centered */
 .badges-grid {
-  max-width: 900px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  padding-bottom: 2rem;
+  gap: clamp(1.2rem, 4vw, 2rem);
+  padding-bottom: 4rem; /* Safety for scroll */
 }
 
+/* Badge Card - Premium Glassy Design */
 .badge-card {
-  background: white;
-  border-radius: 1.2rem;
+  background: var(--card);
+  border-radius: 1.4rem;
   padding: 1.8rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+  transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .badge-card.unlocked {
-  border: 2px solid #10b981;
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+  border: 3px solid var(--success);
+  background: linear-gradient(to bottom, var(--card), #ecfdf5);
+  box-shadow: 0 8px 32px rgba(16,185,129,0.2);
 }
 
 .badge-card.unlocked:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+  transform: translateY(-10px);
+  box-shadow: 0 16px 48px rgba(16,185,129,0.35);
 }
 
 .badge-card.locked {
-  border: 2px solid #e5e7eb;
-  opacity: 0.7;
+  opacity: 0.75;
+  border: 2px solid var(--border);
 }
 
 .badge-card.locked:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
 }
 
+/* Icon Container */
 .badge-icon-container {
-  width: 120px;
-  height: 120px;
+  width: clamp(100px, 22vw, 140px);
+  height: clamp(100px, 22vw, 140px);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
-  position: relative;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1.2rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
 }
 
 .badge-icon {
-  font-size: 3.5rem;
+  font-size: clamp(3rem, 10vw, 4.5rem);
 }
 
-.badge-rank-indicator {
-  position: absolute;
-  bottom: -5px;
-  right: -5px;
-  background: white;
-  color: #1f2937;
-  font-size: 0.7rem;
-  font-weight: bold;
-  padding: 0.3rem 0.6rem;
-  border-radius: 1rem;
-  border: 2px solid #e5e7eb;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
+/* Badge Info */
 .badge-info {
   width: 100%;
 }
 
 .badge-name {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #1f2937;
-  margin: 0 0 0.5rem 0;
-}
-
-.badge-score-range {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #8994cc;
-  margin: 0 0 0.75rem 0;
+  font-size: clamp(1.3rem, 4.5vw, 1.7rem);
+  font-weight: 900;
+  color: var(--dark);
+  margin: 0 0 0.6rem;
 }
 
 .badge-description {
-  font-size: 0.95rem;
-  color: #6b7280;
+  font-size: 1rem;
+  color: var(--muted);
   line-height: 1.5;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1rem;
 }
 
 .badge-date {
-  font-size: 0.9rem;
-  color: #10b981;
-  font-weight: 600;
-  margin: 0;
-  padding: 0.5rem 1rem;
-  background: #d1fae5;
-  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--success);
+  font-weight: 700;
+  background: #ecfdf5;
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
   display: inline-block;
 }
 
 .badge-requirement {
-  font-size: 0.9rem;
-  color: #6b7280;
-  font-weight: 600;
-  margin: 0;
-  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  color: var(--muted);
   background: #f3f4f6;
-  border-radius: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
   display: inline-block;
 }
 
+/* Tips Section */
 .achievement-tips {
-  max-width: 900px;
-  margin: 2rem auto;
-  background: linear-gradient(135deg, #8994cc 0%, #5f6caf 100%);
+  width: 100%;
+  max-width: 1000px;
+  margin: 3rem auto;
+  background: linear-gradient(135deg, var(--primary), #7c3aed);
   color: white;
   padding: 2rem;
-  border-radius: 1.2rem;
-  box-shadow: 0 4px 15px rgba(89, 148, 204, 0.3);
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 40px rgba(99,102,241,0.3);
 }
 
 .achievement-tips h3 {
-  font-size: 1.3rem;
-  margin: 0 0 1rem 0;
+  font-size: 1.6rem;
+  margin: 0 0 1.2rem;
 }
 
 .achievement-tips ul {
   margin: 0;
-  padding-left: 1.5rem;
+  padding-left: 1.8rem;
   list-style: none;
 }
 
 .achievement-tips li {
   position: relative;
-  padding-left: 1.5rem;
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
+  padding-left: 1.8rem;
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
   line-height: 1.6;
 }
 
@@ -215,73 +217,71 @@
   content: '✓';
   position: absolute;
   left: 0;
+  color: var(--warning);
   font-weight: bold;
-  color: #ffd700;
 }
 
+/* Loading State */
 .loading-container {
-  text-align: center;
-  padding: 3rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
 }
 
 .loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #e5e7eb;
-  border-top-color: #5f6caf;
+  width: 64px;
+  height: 64px;
+  border: 6px solid #e5e7eb;
+  border-top: 6px solid var(--primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin: 0 auto 1rem;
+  margin-bottom: 1.5rem;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
+  to { transform: rotate(360deg); }
+}
+
+/* ───── RESPONSIVE PERFECTION ───── */
+
+@media (max-width: 1024px) {
+  .badges-grid {
+    gap: 1.8rem;
   }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .achievements-main {
-    padding: 1.5rem 1rem;
-  }
-
-  .achievements-title {
-    font-size: 1.75rem;
+    padding: 1.5rem 1.2rem 6rem; /* Extra bottom = no cut-off */
   }
 
   .achievements-header {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 0.8rem;
-  }
-
-  .stat-box {
-    padding: 1.2rem;
-  }
-
-  .stat-label {
-    font-size: 0.85rem;
-  }
-
-  .stat-value {
-    font-size: 1.5rem;
-  }
-
-  .section-title {
-    font-size: 1.3rem;
-  }
-
-  .section-description {
-    font-size: 0.9rem;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.2rem;
   }
 
   .badges-grid {
     grid-template-columns: 1fr;
-    gap: 1.2rem;
+    gap: 1.6rem;
   }
 
-  .badge-card {
-    padding: 1.5rem;
+  .badge-icon-container {
+    width: 110px;
+    height: 110px;
+  }
+
+  .stat-box {
+    padding: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .achievements-title {
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
   }
 
   .badge-icon-container {
@@ -289,89 +289,80 @@
     height: 100px;
   }
 
-  .badge-icon {
-    font-size: 3rem;
+  .badge-name {
+    font-size: 1.4rem;
   }
 
-  .badge-name {
-    font-size: 1.2rem;
+  .badge-description {
+    font-size: 0.95rem;
   }
 
   .achievement-tips {
-    padding: 1.5rem;
-  }
-
-  .achievement-tips h3 {
-    font-size: 1.2rem;
-  }
-
-  .achievement-tips li {
-    font-size: 0.95rem;
+    padding: 1.8rem;
   }
 }
 
-@media (max-width: 480px) {
-  .achievements-main {
-    padding: 1rem 0.5rem;
-  }
-
-  .achievements-title {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .achievements-header {
-    grid-template-columns: 1fr;
-    gap: 0.8rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .stat-box {
-    padding: 1rem;
-  }
-
-  .section-title {
-    font-size: 1.2rem;
-  }
-
-  .badges-grid {
-    gap: 1rem;
-  }
-
-  .badge-card {
-    padding: 1.2rem;
-  }
-
+@media (max-width: 360px) {
   .badge-icon-container {
     width: 90px;
     height: 90px;
   }
 
-  .badge-icon {
-    font-size: 2.5rem;
-  }
-
   .badge-name {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
+  }
+}
+/* Core Layout - Make Sidebar + Main side-by-side */
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--first-color); /* or your background */
+}
+
+.content-wrapper {
+  flex: 1;
+  display: flex;               /* Critical: row by default */
+  flex-direction: row;         /* Sidebar | Main */
+  overflow: hidden;            /* Prevents scroll issues */
+}
+
+/* Sidebar - Fixed width, full height */
+.Sidebar {                      /* or whatever class your Sidebar uses */
+  width: 280px;                 /* Adjust to your desired width */
+  flex-shrink: 0;               /* Never shrinks */
+  background: #ffffff;          /* or your sidebar bg */
+  border-right: 1px solid #e5e7eb;
+  overflow-y: auto;
+  height: 100vh;                /* Full viewport height */
+  position: sticky;
+  top: 0;
+}
+
+/* Main content - Takes remaining space */
+main {
+  flex: 1;                      /* Grow to fill space */
+  overflow-y: auto;             /* Scroll only inside main */
+  padding: clamp(1.5rem, 5vw, 3rem);
+  background: var(--light);     /* or your main bg */
+}
+
+/* Optional: Mobile - Stack Sidebar on top or hide/collapse */
+@media (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column;     /* Stack vertically on mobile */
   }
 
-  .badge-score-range {
-    font-size: 0.9rem;
+  .Sidebar {
+    width: 100%;
+    height: auto;               /* Not full height anymore */
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
   }
 
-  .badge-description {
-    font-size: 0.9rem;
-  }
-
-  .achievement-tips {
-    padding: 1.2rem;
-  }
-
-  .achievement-tips h3 {
-    font-size: 1.1rem;
-  }
-
-  .achievement-tips li {
-    font-size: 0.9rem;
+  main {
+    padding: 1.5rem 1rem;
   }
 }
