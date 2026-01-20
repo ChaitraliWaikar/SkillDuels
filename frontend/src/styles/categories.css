@@ -1,0 +1,235 @@
+/* categories.css — SkillDuels Matchmaking UI */
+
+:root {
+  --primary: #6366f1;
+  --secondary: #7c3aed;
+  --accent: #10b981;
+  --danger: #dc2626;
+  --dark: #0f172a;
+  --muted: #64748b;
+  --light: #f8fafc;
+  --card: rgba(255, 255, 255, 0.85);
+  --border: #e5e7eb;
+}
+
+/* Main layout */
+.categories-main {
+  flex: 1;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  overflow-y: auto;
+}
+
+/* Title */
+.categories-title {
+  text-align: center;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 900;
+  margin-bottom: 0.8rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.categories-subtitle {
+  text-align: center;
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+}
+
+/* Categories Grid */
+.categories-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.8rem;
+  max-width: 1100px;
+  margin: 0 auto 4rem;
+}
+
+@media (min-width: 640px) {
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .categories-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Category Card */
+.category-card {
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  border-radius: 1.6rem;
+  border: 1px solid var(--border);
+  padding: 2.4rem 2rem;
+  text-align: center;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.category-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 25px 60px rgba(99, 102, 241, 0.25);
+}
+
+/* Icon */
+.category-icon {
+  font-size: 3.4rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Name */
+.category-name {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 1.8rem;
+}
+
+/* Buttons */
+.btn-choose {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border: none;
+  padding: 0.9rem 2.6rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 900;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.35);
+}
+
+.btn-choose:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(99, 102, 241, 0.45);
+}
+
+/* Solo CTA */
+.solo-cta {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.solo-cta p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+}
+
+.btn-solo {
+  background: linear-gradient(135deg, var(--accent), #059669);
+  color: white;
+  border: none;
+  padding: 0.9rem 2.8rem;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35);
+}
+
+.btn-solo:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(16, 185, 129, 0.45);
+}
+
+/* Loading & Error States */
+.loading-container,
+.error-container {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  text-align: center;
+}
+
+.error-container h2 {
+  color: var(--danger);
+}
+
+/* Spinner */
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(99, 102, 241, 0.2);
+  border-top: 4px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Matchmaking Overlay */
+.matchmaking-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.matchmaking-content {
+  background: var(--card);
+  border-radius: 1.8rem;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  border: 1px solid var(--border);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  max-width: 420px;
+  width: 100%;
+}
+
+.matchmaking-content h2 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin-bottom: 0.6rem;
+}
+
+.matchmaking-content p {
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+/* Cancel Button */
+.btn-cancel {
+  background: transparent;
+  border: 2px solid var(--danger);
+  color: var(--danger);
+  padding: 0.7rem 2.2rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .categories-main {
+    padding: 1.5rem 1.2rem 4rem;
+  }
+
+  .btn-choose,
+  .btn-solo {
+    width: 100%;
+  }
+}

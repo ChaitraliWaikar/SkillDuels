@@ -1,0 +1,106 @@
+/* sidebar.css — SkillDuels Premium Sidebar */
+
+:root {
+  --primary: #6366f1;
+  --secondary: #7c3aed;
+  --accent: #10b981;
+  --dark: #0f172a;
+  --muted: #64748b;
+  --light: #f8fafc;
+  --card: rgba(255, 255, 255, 0.8);
+  --border: #e5e7eb;
+}
+
+/* Sidebar Container */
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  border-right: 1px solid var(--border);
+  padding: 1.4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 900;
+}
+
+/* Navigation */
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Sidebar Item */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dark);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.sidebar-item svg {
+  color: var(--primary);
+}
+
+/* Hover */
+.sidebar-item:hover {
+  background: rgba(99, 102, 241, 0.12);
+  transform: translateX(6px);
+}
+
+/* Active State */
+.sidebar-item.active {
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.18),
+    rgba(124, 58, 237, 0.18)
+  );
+  color: var(--primary);
+}
+
+.sidebar-item.active svg {
+  color: var(--primary);
+}
+
+/* Logout */
+.logout-btn {
+  margin-top: auto;
+  color: #dc2626;
+}
+
+.logout-btn svg {
+  color: #dc2626;
+}
+
+.logout-btn:hover {
+  background: rgba(220, 38, 38, 0.12);
+}
+
+/* Scrollbar (optional polish) */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 10px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none; /* Hidden on mobile (Navbar handles navigation) */
+  }
+}
