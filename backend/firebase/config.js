@@ -5,13 +5,13 @@ import { getFirestore } from "firebase/firestore";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCv6lzFOL6Om2gEpMDE-K7hTsNmulsb_PE",
-  authDomain: "skillduels-39176.firebaseapp.com",
-  databaseURL: "https://skillduels-39176-default-rtdb.firebaseio.com",
-  projectId: "skillduels-39176",
-  storageBucket: "skillduels-39176.firebasestorage.app",
-  messagingSenderId: "340070147678",
-  appId: "1:340070147678:web:e536728206bff3eafa36cf"
+  apiKey: "API_KEY",
+  authDomain: "AUTH_DOMAIN",
+  databaseURL: "DATABASE_URL",
+  projectId: "PROJECT_ID",
+  storageBucket: "STORAGE_BUCKET",
+  messagingSenderId: "MESSAGING_ID",
+  appId: "APP_ID"
 };
 
 // Initialize Firebase
