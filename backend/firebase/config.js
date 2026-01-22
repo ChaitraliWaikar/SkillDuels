@@ -10,7 +10,7 @@ const firebaseConfig = {
   databaseURL: "DATABASE_URL",
   projectId: "PROJECT_ID",
   storageBucket: "STORAGE_BUCKET",
-  messagingSenderId: "MESSAGING_ID",
+  messagingSenderId: "MESSAGING_SENDER_ID",
   appId: "APP_ID"
 };
 
